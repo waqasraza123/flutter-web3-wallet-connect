@@ -1,12 +1,12 @@
 class Transaction {
   final String id;
-  final String walletId;
   final double amount;
-  final String date;
+  final DateTime date;
+  final String type;
 
   Transaction(
       {required this.id,
-      required this.walletId,
       required this.amount,
-      required this.date});
+      required this.date,
+      required this.type});
 }
