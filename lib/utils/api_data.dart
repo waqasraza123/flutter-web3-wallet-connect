@@ -3,6 +3,9 @@ import '../models/transaction.dart';
 
 class ApiData {
   static final Wallet wallet = Wallet(
+    recoveryPhrase: "your recovery phrase here",
+    privateKey: "your private key here",
+    publicKey: "your public key here",
     balance: 1500.00,
     tokens: [
       Token(name: "Ethereum", symbol: "ETH", amount: 1.5, price: 3000.00),

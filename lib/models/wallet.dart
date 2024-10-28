@@ -19,9 +19,34 @@ class NFT {
 }
 
 class Wallet {
-  final double balance;
+  final String recoveryPhrase; // Added for wallet creation
+  final String privateKey; // Added for security
+  final String publicKey; // Added for identification
+  double balance;
   final List<Token> tokens;
   final List<NFT> nfts;
 
-  Wallet({required this.balance, required this.tokens, required this.nfts});
+  Wallet({
+    required this.recoveryPhrase,
+    required this.privateKey,
+    required this.publicKey,
+    required this.balance,
+    required this.tokens,
+    required this.nfts,
+  });
+
+  // Method to add a token to the wallet
+  void addToken(Token token) {
+    tokens.add(token);
+  }
+
+  // Method to add an NFT to the wallet
+  void addNFT(NFT nft) {
+    nfts.add(nft);
+  }
+
+  // Method to update the balance
+  void updateBalance(double amount) {
+    balance += amount;
+  }
 }
