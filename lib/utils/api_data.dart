@@ -32,4 +32,33 @@ class ApiData {
         date: DateTime.now().subtract(const Duration(days: 3)),
         type: "Sent"),
   ];
+
+  // List of top 5 tokens with sample data for display
+  static final List<Map<String, dynamic>> topTokens = [
+    {
+      'name': 'Bitcoin',
+      'price': 29000.00,
+      'change': 2.5, // 24-hour change in percentage
+    },
+    {
+      'name': 'Ethereum',
+      'price': 1800.00,
+      'change': -1.2,
+    },
+    {
+      'name': 'Ripple',
+      'price': 0.50,
+      'change': 3.4,
+    },
+    {
+      'name': 'Cardano',
+      'price': 1.20,
+      'change': 0.8,
+    },
+    {
+      'name': 'Polkadot',
+      'price': 5.80,
+      'change': -0.6,
+    },
+  ];
 }

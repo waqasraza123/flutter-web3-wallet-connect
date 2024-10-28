@@ -14,6 +14,8 @@ dependencies:
   moralis: ^0.0.3+4
   http: ^0.13.6
   provider: ^6.1.2
+  flutter_launcher_icons: ^0.14.1
+  video_player: ^2.9.2
 
 dev_dependencies:
   flutter_test:
@@ -21,4 +23,11 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
-  uses-material-design: false
+  uses-material-design: true
+  assets:
+    - assets/videos/intro.mp4
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png" 
