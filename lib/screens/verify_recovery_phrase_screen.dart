@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 
 class VerifyRecoveryPhraseScreen extends StatefulWidget {
@@ -25,14 +26,25 @@ class _VerifyRecoveryPhraseScreenState
   @override
   void initState() {
     super.initState();
+    _checkWalletCreationStatus();
     _selectRandomWords();
     _wordControllers.addAll(List.generate(4, (_) => TextEditingController()));
   }
 
+  Future<void> _checkWalletCreationStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isWalletCreated = prefs.getBool('walletCreated') ?? false;
+
+    if (isWalletCreated) {
+      // Redirect to main screen if wallet is already created
+      Navigator.pushReplacementNamed(
+          context, '/home'); // Adjust this route as needed
+    }
+  }
+
   void _selectRandomWords() {
     final random = Random();
-    final words = widget.recoveryPhrase
-        .split(' '); // Split the recovery phrase into words
+    final words = widget.recoveryPhrase.split(' ');
 
     // Select 4 unique random indices from the words list
     selectedIndices = [];
@@ -43,27 +55,24 @@ class _VerifyRecoveryPhraseScreenState
       }
     }
 
-    // Get the words at the selected indices
     selectedWords = selectedIndices.map((index) => words[index]).toList();
   }
 
-  void _validateAndProceed() {
+  Future<void> _validateAndProceed() async {
     bool isPasswordValid =
         _passwordController.text == _confirmPasswordController.text;
     bool isPasswordStrong = _isPasswordStrong(_passwordController.text);
     bool areWordsValid = true;
 
-    // Validate entered words against the original recovery phrase
     for (int i = 0; i < selectedWords.length; i++) {
       if (_wordControllers[i].text.trim() != selectedWords[i]) {
         areWordsValid = false;
-        _isWordValid[i] = false; // Mark invalid
+        _isWordValid[i] = false;
       } else {
-        _isWordValid[i] = true; // Mark valid
+        _isWordValid[i] = true;
       }
     }
 
-    // Validate wallet name
     String walletName = _walletNameController.text.trim();
     bool isWalletNameValid = walletName.isNotEmpty;
 
@@ -71,17 +80,17 @@ class _VerifyRecoveryPhraseScreenState
         isPasswordValid &&
         isPasswordStrong &&
         areWordsValid) {
-      // Proceed to animation screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AnimationScreen()),
+      // Wallet creation successful
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('walletCreated', true);
+
+      Navigator.pushReplacementNamed(
+          context, '/chainSelection'); // Navigate to chain selection screen
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Wallet created successfully!')),
       );
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AnimationScreen()),
-      );
-      // Show errors
       if (!isPasswordValid) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Passwords do not match')),
@@ -99,12 +108,11 @@ class _VerifyRecoveryPhraseScreenState
           const SnackBar(content: Text('Wallet name cannot be empty')),
         );
       }
-      setState(() {}); // Trigger rebuild to show errors
+      setState(() {});
     }
   }
 
   bool _isPasswordStrong(String password) {
-    // Check for at least 8 characters, at least one letter and one number
     return password.length >= 8 &&
         password.contains(RegExp(r'[a-zA-Z]')) &&
         password.contains(RegExp(r'[0-9]'));
@@ -126,8 +134,6 @@ class _VerifyRecoveryPhraseScreenState
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
-
-            // Display the positions to verify
             for (int i = 0; i < selectedWords.length; i++) ...[
               Text('Word at position ${selectedIndices[i] + 1}:',
                   style: const TextStyle(fontSize: 16)),
@@ -150,12 +156,8 @@ class _VerifyRecoveryPhraseScreenState
               ),
               const SizedBox(height: 8),
             ],
-
             const SizedBox(height: 20),
-            const Text(
-              'Wallet Name',
-              style: TextStyle(fontSize: 16),
-            ),
+            const Text('Wallet Name', style: TextStyle(fontSize: 16)),
             TextField(
               controller: _walletNameController,
               decoration: const InputDecoration(
@@ -164,11 +166,7 @@ class _VerifyRecoveryPhraseScreenState
               ),
             ),
             const SizedBox(height: 20),
-
-            const Text(
-              'Create Password',
-              style: TextStyle(fontSize: 16),
-            ),
+            const Text('Create Password', style: TextStyle(fontSize: 16)),
             TextField(
               controller: _passwordController,
               obscureText: true,
@@ -178,11 +176,7 @@ class _VerifyRecoveryPhraseScreenState
               ),
             ),
             const SizedBox(height: 20),
-
-            const Text(
-              'Confirm Password',
-              style: TextStyle(fontSize: 16),
-            ),
+            const Text('Confirm Password', style: TextStyle(fontSize: 16)),
             TextField(
               controller: _confirmPasswordController,
               obscureText: true,
@@ -192,8 +186,6 @@ class _VerifyRecoveryPhraseScreenState
               ),
             ),
             const SizedBox(height: 30),
-
-            // Next button to proceed
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -211,68 +203,6 @@ class _VerifyRecoveryPhraseScreenState
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AnimationScreen extends StatelessWidget {
-  const AnimationScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(), // Replace with your animation
-            SizedBox(height: 20),
-            Text('Creating your wallet...', style: TextStyle(fontSize: 20)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SelectChainScreen extends StatelessWidget {
-  const SelectChainScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select a Blockchain'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Please select a blockchain:',
-                style: TextStyle(fontSize: 20)),
-            const SizedBox(height: 20),
-            ListTile(
-              title: const Text('Ethereum'),
-              onTap: () {
-                // Handle Ethereum selection
-              },
-            ),
-            ListTile(
-              title: const Text('Solana'),
-              onTap: () {
-                // Handle Solana selection
-              },
-            ),
-            ListTile(
-              title: const Text('Binance'),
-              onTap: () {
-                // Handle Binance selection
-              },
-            ),
-            // Add more chains as needed
           ],
         ),
       ),

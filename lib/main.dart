@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'screens/chain_selection_screen.dart'; // Import your ChainSelectionScreen
 
 void main() {
   runApp(const MyApp());
@@ -16,9 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
-          foregroundColor:
-              Colors.black, // Sets back button and icon color to black
-          titleTextStyle: TextStyle(color: Colors.black), // Title color
+          foregroundColor: Colors.black,
+          titleTextStyle: TextStyle(color: Colors.black),
         ),
         bottomAppBarTheme: const BottomAppBarTheme(
           color: Colors.white,
@@ -26,6 +26,10 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.blue,
       ),
+      routes: {
+        // Define the chainSelection route here
+        '/chainSelection': (context) => const ChainSelectionScreen(),
+      },
     );
   }
 }

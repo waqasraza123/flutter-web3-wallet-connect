@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'wallet_screen.dart';
 import 'wallet_creation_options_screen.dart';
 
@@ -12,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   late VideoPlayerController _controller;
+  bool walletCreated = false;
 
   @override
   void initState() {
@@ -24,6 +26,22 @@ class HomeScreenState extends State<HomeScreen> {
       }).catchError((error) {
         print('Error initializing video: $error');
       });
+
+    // Check wallet creation status on init
+    _checkWalletStatus();
+  }
+
+  Future<void> _checkWalletStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Retrieve wallet creation status, defaulting to false if not set
+      walletCreated = prefs.getBool('walletCreated') ?? false;
+    });
+  }
+
+  Future<void> _setWalletCreatedStatus(bool status) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('walletCreated', status);
   }
 
   @override
@@ -55,37 +73,55 @@ class HomeScreenState extends State<HomeScreen> {
                     )
                   : const CircularProgressIndicator(),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WalletCreationOptionsScreen(),
-                    ),
-                  );
-                },
-                child: const Text('Create a new wallet'),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  print('Import an existing wallet button pressed');
-                },
-                child: const Text('Import an existing wallet'),
-              ),
+              // Show these buttons only if wallet is not created
+              if (!walletCreated) ...[
+                ElevatedButton(
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const WalletCreationOptionsScreen(),
+                      ),
+                    );
+                    // After wallet creation, set wallet created status
+                    await _setWalletCreatedStatus(true);
+                    setState(() {
+                      walletCreated = true;
+                    });
+                  },
+                  child: const Text(
+                    'Create a new wallet',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    print('Import an existing wallet button pressed');
+                  },
+                  child: const Text(
+                    'Import an existing wallet',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.account_balance_wallet),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const WalletScreen()),
-          );
-        },
-      ),
+      floatingActionButton: walletCreated
+          ? FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: const Icon(Icons.account_balance_wallet),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WalletScreen()),
+                );
+              },
+            )
+          : null, // Do not display if wallet is not created
     );
   }
 }

@@ -19,6 +19,7 @@ dependencies:
   bip39: ^1.0.6
   flutter_secure_storage: ^9.2.2
   crypto: ^3.0.6
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:
