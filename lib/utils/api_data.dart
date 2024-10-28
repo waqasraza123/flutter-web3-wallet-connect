@@ -6,6 +6,7 @@ class ApiData {
     recoveryPhrase: "your recovery phrase here",
     privateKey: "your private key here",
     publicKey: "your public key here",
+    address: "your derived address here", // Add the wallet address here
     balance: 1500.00,
     tokens: [
       Token(name: "Ethereum", symbol: "ETH", amount: 1.5, price: 3000.00),
@@ -36,12 +37,11 @@ class ApiData {
         type: "Sent"),
   ];
 
-  // List of top 5 tokens with sample data for display
   static final List<Map<String, dynamic>> topTokens = [
     {
       'name': 'Bitcoin',
       'price': 29000.00,
-      'change': 2.5, // 24-hour change in percentage
+      'change': 2.5,
     },
     {
       'name': 'Ethereum',

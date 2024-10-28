@@ -3,48 +3,22 @@ import 'package:bip39/bip39.dart' as bip39;
 
 import '../models/wallet.dart';
 
-class Wallet {
-  final String recoveryPhrase;
-  final String privateKey;
-  final String publicKey;
-  final double balance;
-  final List<Token> tokens;
-  final List<NFT> nfts;
-
-  Wallet({
-    required this.recoveryPhrase,
-    required this.privateKey,
-    required this.publicKey,
-    required this.balance,
-    required this.tokens,
-    required this.nfts,
-  });
-
-  // Method to add a token
-  void addToken(Token token) {
-    tokens.add(token);
-  }
-
-  // Method to add an NFT
-  void addNFT(NFT nft) {
-    nfts.add(nft);
-  }
-}
-
 class WalletService {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
-  // Generate a new wallet with a recovery phrase
   Wallet createWallet() {
     final recoveryPhrase = bip39.generateMnemonic();
     final seed = bip39.mnemonicToSeed(recoveryPhrase);
     final privateKey = _derivePrivateKey(seed);
     final publicKey = _derivePublicKey(privateKey);
+    final address =
+        Wallet.deriveAddress(publicKey); // Derive address from publicKey
 
     return Wallet(
       recoveryPhrase: recoveryPhrase,
       privateKey: privateKey,
       publicKey: publicKey,
+      address: address, // Pass derived address to constructor
       balance: 0.0,
       tokens: [],
       nfts: [],
@@ -66,6 +40,8 @@ class WalletService {
     await _storage.write(key: 'recoveryPhrase', value: wallet.recoveryPhrase);
     await _storage.write(key: 'privateKey', value: wallet.privateKey);
     await _storage.write(key: 'publicKey', value: wallet.publicKey);
+    await _storage.write(
+        key: 'address', value: wallet.address); // Store address
     await _storage.write(key: 'balance', value: wallet.balance.toString());
   }
 }
