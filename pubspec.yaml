@@ -1,0 +1,24 @@
+name: flutter_wallet_connect
+description: "Flutter Web3 Wallet for Tokens and NFTs."
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  moralis: ^0.0.3+4
+  http: ^0.13.6
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: false
