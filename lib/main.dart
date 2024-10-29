@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_wallet_connect/screens/wallet_history.dart';
 import 'screens/home_screen.dart';
 import 'screens/chain_selection_screen.dart';
 import 'screens/settings_screen.dart';
@@ -21,15 +22,13 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.black,
           titleTextStyle: TextStyle(color: Colors.black),
         ),
-        bottomAppBarTheme: const BottomAppBarTheme(
-          color: Colors.white,
-        ),
         scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.blue,
       ),
       routes: {
         '/chainSelection': (context) => const ChainSelectionScreen(),
         '/settings': (context) => const SettingsScreen(),
+        '/history': (context) => const HistoryScreen(),
       },
     );
   }

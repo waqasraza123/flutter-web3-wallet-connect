@@ -6,7 +6,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wallet = ApiData.wallet; // Get the wallet data
+    final wallet = ApiData.wallet;
 
     return Scaffold(
       appBar: AppBar(

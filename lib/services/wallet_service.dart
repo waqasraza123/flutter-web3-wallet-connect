@@ -11,14 +11,13 @@ class WalletService {
     final seed = bip39.mnemonicToSeed(recoveryPhrase);
     final privateKey = _derivePrivateKey(seed);
     final publicKey = _derivePublicKey(privateKey);
-    final address =
-        Wallet.deriveAddress(publicKey); // Derive address from publicKey
+    final address = Wallet.deriveAddress(publicKey);
 
     return Wallet(
       recoveryPhrase: recoveryPhrase,
       privateKey: privateKey,
       publicKey: publicKey,
-      address: address, // Pass derived address to constructor
+      address: address,
       balance: 0.0,
       tokens: [],
       nfts: [],
