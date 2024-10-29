@@ -60,3 +60,4 @@ analysis_options.yaml
 .metadata
 pubspec.lock
 test/
+.env
