@@ -46,8 +46,8 @@ class CoinsTabState extends State<CoinsTab> {
     if (isLoading) {
       return Center(
         child: LoadingAnimationWidget.inkDrop(
-          color: Colors.white,
-          size: 100,
+          color: Colors.black,
+          size: 50,
         ),
       );
     }

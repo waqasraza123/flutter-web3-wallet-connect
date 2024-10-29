@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../services/moralis/wallet_net_worth_service.dart';
 
 class WalletBalanceHeaderWidget extends StatelessWidget {
@@ -12,9 +13,12 @@ class WalletBalanceHeaderWidget extends StatelessWidget {
       future: WalletNetWorthService.fetchWalletNetWorth(walletAddress),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Padding(
+          return Padding(
             padding: EdgeInsets.all(16.0),
-            child: CircularProgressIndicator(),
+            child: LoadingAnimationWidget.newtonCradle(
+              color: Colors.black,
+              size: 50,
+            ),
           );
         } else if (snapshot.hasError) {
           return const Padding(

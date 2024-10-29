@@ -35,7 +35,7 @@ class HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wallet History'),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
       body: Container(
         color: Colors.black,

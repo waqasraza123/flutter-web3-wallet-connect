@@ -15,19 +15,19 @@ class BottomNav extends StatelessWidget {
       items: const [
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.briefcase, color: Colors.black),
-          label: 'Wallet',
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.search, color: Colors.black),
-          label: 'Discover',
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.clock, color: Colors.black),
-          label: 'History',
+          label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.settings, color: Colors.black),
-          label: 'Settings',
+          label: '',
         ),
       ],
       currentIndex: NavigationItem.wallet.index,
