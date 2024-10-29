@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../settings_screen.dart';
 import '../wallet_history.dart';
@@ -10,30 +9,40 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      backgroundColor: Colors.black,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.briefcase, color: Colors.black),
-          label: '',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.search, color: Colors.black),
-          label: '',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.clock, color: Colors.black),
-          label: '',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.settings, color: Colors.black),
-          label: '',
-        ),
-      ],
-      currentIndex: NavigationItem.wallet.index,
-      selectedItemColor: Colors.black, // Change selected item color
-      unselectedItemColor: Colors.grey, // Change unselected item color
-      onTap: (index) => _navigate(context, NavigationItem.values[index]),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: Colors.white, // Set the background color here
+        primaryColor: Colors.blue, // Active item color
+        textTheme: Theme.of(context).textTheme.copyWith(
+              bodySmall:
+                  const TextStyle(color: Colors.grey), // Inactive item color
+            ),
+      ),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet),
+            label: 'Wallet',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Explore',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: NavigationItem.wallet.index,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        onTap: (index) => _navigate(context, NavigationItem.values[index]),
+      ),
     );
   }
 

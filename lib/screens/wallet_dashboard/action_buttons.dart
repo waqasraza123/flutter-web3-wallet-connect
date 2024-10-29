@@ -39,14 +39,20 @@ class ActionButtons extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-          shape: const CircleBorder(), padding: const EdgeInsets.all(20)),
+        shape: const CircleBorder(),
+        padding: const EdgeInsets.all(20),
+        backgroundColor: Colors.white, // Set background color to white
+        foregroundColor: Colors.black, // Set icon and text color to black
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 32),
           const SizedBox(height: 4),
-          Text(title,
-              style: const TextStyle(fontSize: 10, color: Colors.black)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 10, color: Colors.black),
+          ),
         ],
       ),
     );

@@ -19,7 +19,7 @@ class WalletScreen extends StatelessWidget {
           return Center(
             child: LoadingAnimationWidget.inkDrop(
               color: Colors.white,
-              size: 100,
+              size: 50,
             ),
           );
         }

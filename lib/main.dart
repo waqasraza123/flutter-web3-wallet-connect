@@ -26,6 +26,12 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.blue,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor:
+              Colors.white, // Set your desired background color here
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+        ),
       ),
       routes: {
         '/chainSelection': (context) => const ChainSelectionScreen(),
