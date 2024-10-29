@@ -68,7 +68,7 @@ class WalletCreationOptionsScreen extends StatelessWidget {
       required VoidCallback onPressed,
       String? textButtonText,
       String bottomText = ''}) {
-    return Container(
+    return SizedBox(
       height: 250, // Set a fixed height for uniformity
       width: double.infinity, // Make the card take full width
       child: Card(

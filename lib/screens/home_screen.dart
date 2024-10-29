@@ -34,7 +34,6 @@ class HomeScreenState extends State<HomeScreen> {
   Future<void> _checkWalletStatus() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      // Retrieve wallet creation status, defaulting to false if not set
       walletCreated = prefs.getBool('walletCreated') ?? false;
     });
   }
@@ -57,7 +56,7 @@ class HomeScreenState extends State<HomeScreen> {
         title: const Text('Home'),
       ),
       body: Container(
-        color: const Color.fromRGBO(9, 9, 10, 1),
+        color: Colors.black,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +72,6 @@ class HomeScreenState extends State<HomeScreen> {
                     )
                   : const CircularProgressIndicator(),
               const SizedBox(height: 20),
-              // Show these buttons only if wallet is not created
               if (!walletCreated) ...[
                 ElevatedButton(
                   onPressed: () async {
@@ -84,7 +82,6 @@ class HomeScreenState extends State<HomeScreen> {
                             const WalletCreationOptionsScreen(),
                       ),
                     );
-                    // After wallet creation, set wallet created status
                     await _setWalletCreatedStatus(true);
                     setState(() {
                       walletCreated = true;
@@ -121,7 +118,7 @@ class HomeScreenState extends State<HomeScreen> {
                 );
               },
             )
-          : null, // Do not display if wallet is not created
+          : null,
     );
   }
 }

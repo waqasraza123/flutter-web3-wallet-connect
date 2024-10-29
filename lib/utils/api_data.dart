@@ -6,12 +6,37 @@ class ApiData {
     recoveryPhrase: "your recovery phrase here",
     privateKey: "your private key here",
     publicKey: "your public key here",
-    address: "your derived address here", // Add the wallet address here
+    address: "your derived address here",
     balance: 1500.00,
     tokens: [
-      Token(name: "Ethereum", symbol: "ETH", amount: 1.5, price: 3000.00),
-      Token(name: "Binance Coin", symbol: "BNB", amount: 2.0, price: 400.00),
-      Token(name: "Solana", symbol: "SOL", amount: 10.0, price: 20.00),
+      Token(
+        name: "Ethereum",
+        symbol: "ETH",
+        amount: 1.5,
+        price: 3000.00,
+        imageUrl: 'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=025',
+        currentAmount: 1.5,
+        currentBalance: 3000.00 * 1.5,
+      ),
+      Token(
+        name: "Binance Coin",
+        symbol: "BNB",
+        amount: 2.0,
+        price: 400.00,
+        imageUrl:
+            'https://cryptologos.cc/logos/binance-coin-bnb-logo.png?v=025',
+        currentAmount: 2.0,
+        currentBalance: 400.00 * 2.0,
+      ),
+      Token(
+        name: "Solana",
+        symbol: "SOL",
+        amount: 10.0,
+        price: 20.00,
+        imageUrl: 'https://cryptologos.cc/logos/solana-sol-logo.png?v=025',
+        currentAmount: 10.0,
+        currentBalance: 20.00 * 10.0,
+      ),
     ],
     nfts: [
       NFT(name: "CryptoPunk #1", imageUrl: "https://example.com/nft1.png"),
@@ -21,47 +46,35 @@ class ApiData {
 
   static final List<Transaction> transactions = [
     Transaction(
-        id: "1",
-        amount: -50.00,
-        date: DateTime.now().subtract(const Duration(days: 1)),
-        type: "Sent"),
+      id: "1",
+      amount: -50.00,
+      date: DateTime.now().subtract(const Duration(days: 1)),
+      type: "Sent",
+    ),
     Transaction(
-        id: "2",
-        amount: 150.00,
-        date: DateTime.now().subtract(const Duration(days: 2)),
-        type: "Received"),
+      id: "2",
+      amount: 150.00,
+      date: DateTime.now().subtract(const Duration(days: 2)),
+      type: "Received",
+    ),
     Transaction(
-        id: "3",
-        amount: -20.00,
-        date: DateTime.now().subtract(const Duration(days: 3)),
-        type: "Sent"),
+      id: "3",
+      amount: -20.00,
+      date: DateTime.now().subtract(const Duration(days: 3)),
+      type: "Sent",
+    ),
   ];
 
-  static final List<Map<String, dynamic>> topTokens = [
-    {
-      'name': 'Bitcoin',
-      'price': 29000.00,
-      'change': 2.5,
-    },
-    {
-      'name': 'Ethereum',
-      'price': 1800.00,
-      'change': -1.2,
-    },
-    {
-      'name': 'Ripple',
-      'price': 0.50,
-      'change': 3.4,
-    },
-    {
-      'name': 'Cardano',
-      'price': 1.20,
-      'change': 0.8,
-    },
-    {
-      'name': 'Polkadot',
-      'price': 5.80,
-      'change': -0.6,
-    },
-  ];
+  static List<Map<String, dynamic>> get topTokens {
+    return wallet.tokens.map((token) {
+      return {
+        'name': token.name,
+        'price': token.price,
+        'change': 0.0,
+        'imageUrl': token.imageUrl,
+        'currentAmount': token.currentAmount,
+        'currentBalance': token.currentBalance,
+      };
+    }).toList();
+  }
 }

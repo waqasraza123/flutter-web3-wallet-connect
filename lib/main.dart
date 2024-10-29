@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
-import 'screens/chain_selection_screen.dart'; // Import your ChainSelectionScreen
+import 'screens/chain_selection_screen.dart';
+import 'screens/settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,8 +28,8 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue,
       ),
       routes: {
-        // Define the chainSelection route here
         '/chainSelection': (context) => const ChainSelectionScreen(),
+        '/settings': (context) => const SettingsScreen(),
       },
     );
   }

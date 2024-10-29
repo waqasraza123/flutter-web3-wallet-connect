@@ -6,12 +6,18 @@ class Token {
   final String symbol;
   final double amount;
   final double price;
+  final String imageUrl;
+  final double currentAmount;
+  final double currentBalance;
 
   Token({
     required this.name,
     required this.symbol,
     required this.amount,
     required this.price,
+    required this.imageUrl,
+    required this.currentAmount,
+    required this.currentBalance,
   });
 }
 
@@ -26,7 +32,7 @@ class Wallet {
   final String recoveryPhrase;
   final String privateKey;
   final String publicKey;
-  final String address; // Explicitly add address as a final field
+  final String address;
   final double balance;
   final List<Token> tokens;
   final List<NFT> nfts;
@@ -35,7 +41,7 @@ class Wallet {
     required this.recoveryPhrase,
     required this.privateKey,
     required this.publicKey,
-    required this.address, // Ensure address is set via the constructor
+    required this.address,
     required this.balance,
     required this.tokens,
     required this.nfts,
