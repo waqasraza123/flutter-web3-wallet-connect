@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_wallet_connect/services/moralis/wallet_balanaces_service.dart';
+import 'package:flutter_wallet_connect/services/moralis/wallet_token_balanaces_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:logger/logger.dart';
 
@@ -27,7 +27,7 @@ class CoinsTabState extends State<CoinsTab> {
       // Replace with the actual wallet address you want to fetch balances for
       final walletAddress = dotenv.env['ETH_WALLET_ADDRESS']!;
       final response =
-          await WalletBalanacesService.fetchWalletBalanaces(walletAddress);
+          await WalletTokenBalanacesService.fetchWalletBalanaces(walletAddress);
       setState(() {
         tokens = response;
         isLoading = false;
