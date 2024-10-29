@@ -34,8 +34,3 @@ flutter:
   assets:
     - assets/videos/intro.mp4
     - .env
-
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/icon/icon.png" 

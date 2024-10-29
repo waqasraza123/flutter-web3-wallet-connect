@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../services/moralis/wallet_net_worth_service.dart';
+import '../../utils/amount_converter.dart';
 
 class WalletBalanceHeaderWidget extends StatelessWidget {
   final String walletAddress;
@@ -36,7 +37,7 @@ class WalletBalanceHeaderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$$balance',
+                  formatAmount(balance),
                   style: const TextStyle(
                       fontSize: 32, fontWeight: FontWeight.bold),
                 ),

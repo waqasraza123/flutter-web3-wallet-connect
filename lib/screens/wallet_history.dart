@@ -42,7 +42,7 @@ class HistoryScreenState extends State<HistoryScreen> {
         child: isLoading
             ? Center(
                 child: LoadingAnimationWidget.inkDrop(
-                    color: Colors.white, size: 100))
+                    color: Colors.white, size: 50))
             : ListView.builder(
                 itemCount: history.length,
                 itemBuilder: (context, index) {
