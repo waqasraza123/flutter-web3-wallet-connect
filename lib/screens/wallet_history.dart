@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../services/moralis/wallet_history_service.dart';
 import 'package:logger/logger.dart';
@@ -22,7 +23,7 @@ class HistoryScreenState extends State<HistoryScreen> {
 
   Future<void> fetchHistory() async {
     final response = await WalletHistoryService.fetchWalletHistory(
-        '0x78e158e6849ba83678b0726fb8b04c2f9b57399a');
+        dotenv.env['ETH_WALLET_ADDRESS']!);
     setState(() {
       history = response;
       isLoading = false;

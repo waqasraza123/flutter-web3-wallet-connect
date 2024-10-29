@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
-class WalletHistoryService {
-  static Future<List<dynamic>> fetchWalletHistory(String walletAddress) async {
+class WalletBalanacesService {
+  static Future<List<dynamic>> fetchWalletBalanaces(
+      String walletAddress) async {
     final baseUrl = dotenv.env['BASE_URL'];
-    if (baseUrl == null) {
-      throw Exception('Base URL is not set in .env file');
-    }
-    final url = '$baseUrl/api/web3/moralis/wallet/$walletAddress/history';
+    final url =
+        '$baseUrl/api/web3/moralis/wallet/$walletAddress/token-balances';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
