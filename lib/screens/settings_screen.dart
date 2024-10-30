@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import '../utils/api_data.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final wallet = ApiData.wallet;
+    final TextEditingController addressController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -14,54 +13,58 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Display wallet information
-            Text(
-              'Wallet Address: ${wallet.address}',
-              style: const TextStyle(fontSize: 16),
+            // Professional description text
+            const Text(
+              'Import Your Existing Wallet',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              'Balance: \$${wallet.balance.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 16),
+            const SizedBox(height: 8),
+            const Text(
+              'To seamlessly integrate your digital assets, please enter the address associated with your existing wallet (e.g., from OKX, MetaMask, or Phantom). Once imported, your token and NFT data will sync automatically within the app.',
+              style: TextStyle(fontSize: 15, color: Colors.black54),
+            ),
+            const SizedBox(height: 30),
+
+            // Wallet Address input field
+            TextField(
+              controller: addressController,
+              decoration: InputDecoration(
+                labelText: 'Wallet Address',
+                hintText: '0x00000000219ab540356cBB839Cbe05303d7705Fa',
+                hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
 
-            // Display tokens
-            const Text(
-              'Tokens:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            // Import wallet button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                onPressed: () {
+                  final address = addressController.text;
+                  // Add functionality here to import wallet with address
+                },
+                child: const Text(
+                  'Import Wallet with Address',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             ),
-            const SizedBox(height: 10),
-            ...wallet.tokens.map((token) {
-              return ListTile(
-                title: Text(token.name),
-                subtitle: Text(
-                  '${token.amount} (${token.symbol}) - \$${token.price.toStringAsFixed(2)}',
-                ),
-              );
-            }).toList(),
-
-            const SizedBox(height: 20),
-
-            // Display transactions
-            const Text(
-              'Recent Transactions:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            ...ApiData.transactions.map((transaction) {
-              return ListTile(
-                title: Text(
-                  'Transaction ID: ${transaction.id}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text(
-                  '${transaction.type} \$${transaction.amount.toStringAsFixed(2)} on ${transaction.date}',
-                ),
-              );
-            }).toList(),
           ],
         ),
       ),

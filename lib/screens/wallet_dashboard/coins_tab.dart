@@ -56,26 +56,56 @@ class CoinsTabState extends State<CoinsTab> {
       return Center(child: Text('Error: $errorMessage'));
     }
 
+    Logger logger = Logger();
+    logger.i(tokens);
+
     return ListView.builder(
       itemCount: tokens.length,
       itemBuilder: (context, index) {
         final tokenData = tokens[index];
         final token = tokenData['token'];
         final amount = tokenData['value'];
+        final tokenLogo = (token['logo']?.startsWith('ipfs://') ?? false)
+            ? token['logo'].replaceFirst('ipfs://', 'https://ipfs.io/ipfs/')
+            : (token['logo'] ??
+                'https://cryptologos.cc/logos/ethereum-eth-logo.png?v=025');
 
         return ListTile(
-          leading: token['logo'] != null
-              ? Image.network(token['logo'], width: 40, height: 40)
-              : const Icon(Icons.image_not_supported),
+          leading: Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.lightBlue,
+                width: 2.0,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0), // Adjust padding as needed
+              child: ClipOval(
+                child: Image.network(
+                  tokenLogo,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object error,
+                      StackTrace? stackTrace) {
+                    return const Icon(Icons.image_not_supported,
+                        size: 40, color: Colors.grey);
+                  },
+                ),
+              ),
+            ),
+          ),
           title: Row(
             children: [
               Expanded(
-                  child: Text(token['name'],
-                      style: const TextStyle(fontWeight: FontWeight.bold))),
-              // You can customize how to display the token's price or change percentage here
-              // Assuming price is not available in your API response, otherwise you can include it.
+                child: Text(token['name'] ?? token['symbol'] ?? 'Unknown Token',
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+              ),
               const Text(
-                'N/A', // Placeholder for price or any other info
+                '', // Placeholder for additional info
                 style:
                     TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
               ),

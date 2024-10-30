@@ -53,25 +53,21 @@ class HistoryScreenState extends State<HistoryScreen> {
                   bool isSend = transaction['category'] == 'send';
                   String defaultLogo = '';
 
-                  // Check for native transfers
                   if (transaction['native_transfers'].isNotEmpty) {
                     final nativeTransfer = transaction['native_transfers'][0];
                     amount = nativeTransfer['value_formatted'] ?? '0';
                     symbol = nativeTransfer['token_symbol'] ?? 'ETH';
                     address = nativeTransfer['to_address'] ?? '';
-                    // Log token_logo if it's set
                     if (nativeTransfer['token_logo'] != null) {
                       Logger logger = Logger();
                       defaultLogo = nativeTransfer['token_logo'];
                     }
                   } else if (transaction['erc20_transfers'].isNotEmpty) {
-                    // Check for ERC20 transfers
                     final erc20Transfer = transaction['erc20_transfers'][0];
                     amount = erc20Transfer['value_formatted'] ?? '0';
                     symbol = erc20Transfer['token_symbol'] ?? 'Token';
                     address = erc20Transfer['to_address'] ?? '';
                   } else {
-                    // If there's no transfer, use the summary
                     amount = transaction['summary'] ?? 'Unknown';
                   }
 
@@ -84,25 +80,56 @@ class HistoryScreenState extends State<HistoryScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Chain logo placeholder
-                          SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: Image.network(
-                              defaultLogo,
-                              fit: BoxFit.cover,
-                              errorBuilder: (BuildContext context, Object error,
-                                  StackTrace? stackTrace) {
-                                return Image.network(
-                                  'https://via.placeholder.com/40',
+                          // Logo with send/receive icon overlayed
+                          Stack(
+                            clipBehavior: Clip.none, // Allow overflow of icon
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: Image.network(
+                                  defaultLogo,
                                   fit: BoxFit.cover,
-                                );
-                              },
-                            ),
+                                  errorBuilder: (BuildContext context,
+                                      Object error, StackTrace? stackTrace) {
+                                    return Image.network(
+                                      'https://via.placeholder.com/40',
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
+                              ),
+                              Positioned(
+                                bottom: -5, // Adjust icon position
+                                right: -5,
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(
+                                        2), // Adjust padding for icon size
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black.withOpacity(
+                                          0.6), // Circle background color
+                                    ),
+                                    child: Icon(
+                                      isSend
+                                          ? Icons.arrow_forward_outlined
+                                          : Icons.arrow_back_outlined,
+                                      color: Colors.white.withOpacity(0.9),
+                                      size:
+                                          16, // Adjust icon size for better fit inside circle
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          // Amount sent and quantity
+                          const SizedBox(
+                              width: 10), // Space between logo and text
+                          // Transaction details
                           Expanded(
-                            // Use Expanded or Flexible here
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -113,29 +140,17 @@ class HistoryScreenState extends State<HistoryScreen> {
                                 Text(
                                   'From: ${transaction['from_address']}',
                                   style: const TextStyle(color: Colors.white),
-                                  overflow:
-                                      TextOverflow.ellipsis, // Handle long text
-                                  maxLines: 1, // Limit to one line
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                                 Text(
                                   'To: $address',
                                   style: const TextStyle(color: Colors.white),
-                                  overflow:
-                                      TextOverflow.ellipsis, // Handle long text
-                                  maxLines: 1, // Limit to one line
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                               ],
                             ),
-                          ),
-                          // Send or receive icon
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Icon(
-                                isSend ? Icons.arrow_forward : Icons.arrow_back,
-                                color: Colors.white,
-                              ),
-                            ],
                           ),
                         ],
                       ),

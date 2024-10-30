@@ -46,8 +46,8 @@ class _NFTsTabState extends State<NFTsTab> {
               final name = metadata['name'] ?? 'Unnamed NFT';
               final imageUrl = metadata['image'] ?? '';
 
-              return Card(
-                margin:
+              return Padding(
+                padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: ListTile(
                   leading: imageUrl.isNotEmpty
